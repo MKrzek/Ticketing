@@ -9,5 +9,5 @@ app.get( '/api/users/currentuser', ( req, res ) => {
 
 
 app.listen( 3000, () => {
-  console.log('Listening auth on 3000')
+  console.log('Listening auth on 3000!!')
 })
