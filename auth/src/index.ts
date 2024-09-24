@@ -9,9 +9,18 @@ import { signupRouter } from './routes/signup';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 
 const app = express();
+// traffic is proxied to express through ingress nginx and allows express to trust the connection even when express is behind the proxy
+app.set('trust proxy', true);
 app.use(json());
+app.use(
+	cookieSession({
+		signed: false,
+		secure: true,
+	})
+);
 
 app.use(currentUserRouter);
 app.use(signinRouter);
