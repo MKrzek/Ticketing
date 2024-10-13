@@ -20,7 +20,11 @@ const Signup = () => {
 
   const onSubmit = async(event) => {
     event.preventDefault()
-     await doRequest()
+    try {
+      await doRequest();
+    } catch ( err ) {
+      console.log('req err')
+    }
   }
 
   return <form onSubmit={onSubmit}>

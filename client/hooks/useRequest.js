@@ -1,16 +1,15 @@
-import  axios  from 'axios';
+import axios from 'axios';
 import { useState } from 'react';
 
 const useRequest = ( { url, method, body, onSuccess } ) => {
 
-  const [ errors, setErrors ] = useState(null)
-  console.log('running req')
+  const [errors, setErrors] = useState( null );
 
-  const doRequest = async() => {
+  const doRequest = async () => {
     try {
-      const response = await axios[method](url, body);
-      if (onSuccess) {
-        onSuccess(response.data)
+      const response = await axios[method]( url, body );
+      if ( onSuccess ) {
+        onSuccess( response.data );
       }
       return response.data;
     } catch ( err ) {
@@ -19,16 +18,16 @@ const useRequest = ( { url, method, body, onSuccess } ) => {
         <div className='alert alert-danger'>
           <h4>Ooops....</h4>
           <ul className='my-0'>
-            { err?.response?.data?.errors.map( error => <li key={ error.message }>{ error.message }</li> )}
+            { err?.response?.data?.errors.map( error => <li key={ error.message }>{ error.message }</li> ) }
           </ul>
         </div>
       );
 
       throw err;
     }
-  }
+  };
 
-  return {doRequest, errors}
+  return { doRequest, errors };
 };
 
 export default useRequest;
