@@ -7,7 +7,7 @@ const Signup = () => {
 
   const [email, setEmail] = useState( '' );
   const [password, setPassword] = useState( '' );
-  console.log( 'Test' );
+  console.log( 'Test2' );
 
   const { doRequest, errors } = useRequest( {
     url: '/api/users/signup',
