@@ -2,7 +2,8 @@ import express from 'express';
 import 'express-async-errors';
 import {json} from 'body-parser';
 
-import {errorHandler, NotFoundError} from '@mkrzektickets/common';
+import {errorHandler, NotFoundError, currentUser} from '@mkrzektickets/common';
+import {createTicketRouter} from './routes/new';
 
 import cookieSession from 'cookie-session';
 
@@ -16,6 +17,8 @@ app.use(
 		secure: process.env.NODE_ENV !== 'test',
 	})
 );
+app.use(currentUser);
+app.use(createTicketRouter);
 
 app.all('*', () => {
 	throw new NotFoundError();
