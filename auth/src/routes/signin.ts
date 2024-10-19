@@ -1,9 +1,8 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { validateRequest } from '../middlewares/validate-request';
-import { User } from '../models/user';
-import { BadRequestError } from '../errors/bad-request-error';
-import { Password } from '../services/password';
+import express, {Request, Response} from 'express';
+import {body} from 'express-validator';
+import {validateRequest, BadRequestError} from '@mkrzektickets/common';
+import {User} from '../models/user';
+import {Password} from '../services/password';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -19,8 +18,8 @@ router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { email, password } = req.body;
-		const existingUser = await User.findOne({ email });
+		const {email, password} = req.body;
+		const existingUser = await User.findOne({email});
 
 		if (!existingUser) {
 			throw new BadRequestError('Invalid credentials');
@@ -45,10 +44,10 @@ router.post(
 		);
 
 		// store jwt on session
-		req.session = { jwt: userJwt };
+		req.session = {jwt: userJwt};
 
 		res.status(200).send(existingUser);
 	}
 );
 
-export { router as signinRouter };
+export {router as signinRouter};
