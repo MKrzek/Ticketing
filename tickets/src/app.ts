@@ -7,6 +7,8 @@ import {createTicketRouter} from './routes/new';
 
 import cookieSession from 'cookie-session';
 import {showTicketRouter} from './routes/show';
+import {indexTicketRouter} from './routes';
+import {updateTicketRouter} from './routes/update';
 
 const app = express();
 // traffic is proxied to express through ingress nginx and allows express to trust the connection even when express is behind the proxy
@@ -21,6 +23,8 @@ app.use(
 app.use(currentUser);
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 app.all('*', () => {
 	throw new NotFoundError();

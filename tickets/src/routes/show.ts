@@ -1,12 +1,11 @@
-import express, {Request, Response} from 'express';
 import {NotFoundError} from '@mkrzektickets/common';
+import express, {Request, Response} from 'express';
 
 import {Ticket} from '../models/ticket';
 
 const router = express.Router();
 
 router.get('/api/tickets/:id', async (req: Request, res: Response) => {
-	console.log('sjsjs', req.params.id);
 	const ticket = await Ticket.findById(req.params.id);
 
 	if (!ticket) {

@@ -1,6 +1,6 @@
+import jwt from 'jsonwebtoken';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 let mongo: any;
 
 declare global {
@@ -33,10 +33,12 @@ afterAll(async () => {
 
 global.signin = () => {
 	// build a JWT payload to put into a cookie = {"jwt": "jsonwebtokengoeshere"}
-	const payload = {id: '12345', email: 'test@test.com'};
+	const payload = {
+		id: new mongoose.Types.ObjectId().toHexString(),
+		email: 'test@test.com',
+	};
 
 	// JWT payload will have id, email
-
 	const token = jwt.sign(payload, process.env.JWT_KEY!);
 
 	// build session object{jwt: MY_JWT}
