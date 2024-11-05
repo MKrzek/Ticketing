@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {natsWrapper} from '../nats-wrapper';
 import {app} from './app';
 
 const start = async () => {
@@ -10,6 +11,7 @@ const start = async () => {
 	}
 
 	try {
+		await natsWrapper.connect('ticketing', 'absdfef', 'http://nats-srv:4222');
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('Connected to MongoDB in tickets');
 	} catch (err) {
