@@ -4,9 +4,11 @@ import {
 	requireAuth,
 	validateRequest,
 } from '@mkrzektickets/common';
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { Ticket } from '../models/ticket';
+import express, {Request, Response} from 'express';
+import {body} from 'express-validator';
+import {natsWrapper} from '../../nats-wrapper';
+import {TicketUpdatedPublisher} from '../events/publishers/ticket-updated-publisher';
+import {Ticket} from '../models/ticket';
 
 const router = express.Router();
 
@@ -35,12 +37,18 @@ router.put(
 		// 	{new: true}
 		// );
 
-		ticket.set({...req.body})
-		await ticket.save()
+		ticket.set({...req.body});
+		await ticket.save();
+
+		await new TicketUpdatedPublisher(natsWrapper.client).publish({
+			id: ticket.id,
+			title: ticket.title,
+			price: ticket.price,
+			userId: ticket.userId,
+		});
 
 		res.send(ticket);
 	}
 );
 
-export { router as updateTicketRouter };
-
+export {router as updateTicketRouter};
