@@ -7,7 +7,7 @@ declare global {
 	var signin: () => string[];
 }
 
-jest.mock('../nats-wrapper.ts');
+jest.mock('../nats-wrapper');
 
 beforeAll(async () => {
 	process.env.JWT_KEY = 'asdf';
