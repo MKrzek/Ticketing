@@ -1,7 +1,8 @@
-import {OrderStatus} from '@mkrzektickets/common';
+import { OrderStatus } from '@mkrzektickets/common';
 import mongoose from 'mongoose';
-import {Order} from './order';
+import { Order } from './order';
 interface TicketAttrs {
+	id?: string;
 	title: string;
 	price: number;
 }
@@ -39,14 +40,18 @@ const ticketSchema = new mongoose.Schema(
 
 // statics is how we add a method to ticket model directly
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-	return new Ticket(attrs);
+	return new Ticket( {
+		_id: attrs.id,
+		title: attrs.title,
+		price: attrs.price
+	})
 };
 
 // if we want to add a method to an indiviual document
 ticketSchema.methods.isReserved = async function () {
 	//this === the ticket documet that is 'Reserved'
-		// run query to look at all orders and we need to find a query that has this particular ticket attached to it
-		// and the order status is ***not cancelled**
+	// run query to look at all orders and we need to find a query that has this particular ticket attached to it
+	// and the order status is ***not cancelled**
 	const existingOrder = await Order.findOne({
 		ticket: this,
 		status: {
@@ -62,4 +67,5 @@ ticketSchema.methods.isReserved = async function () {
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
-export {Ticket};
+export { Ticket };
+
