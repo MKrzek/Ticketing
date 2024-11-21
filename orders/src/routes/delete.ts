@@ -2,9 +2,9 @@ import {
 	NotAuthorizedError,
 	NotFoundError,
 	requireAuth,
+	OrderStatus
 } from '@mkrzektickets/common';
 import express, {Request, Response} from 'express';
-import {OrderStatus} from '../../../common/src/events/types/order-status';
 import {OrderCancelledPublisher} from '../events/publishers/order-cancelled-publisher';
 import {Order} from '../models/order';
 import {natsWrapper} from '../nats-wrapper';
