@@ -1,6 +1,7 @@
-import {Subjects, TicketUpdatedEvent, Listener} from '@mkrzektickets/common';
-import {Message} from 'node-nats-streaming';
-import {Ticket} from '../../models/ticket';
+import { Listener, Subjects, TicketUpdatedEvent } from '@mkrzektickets/common';
+import { Message } from 'node-nats-streaming';
+
+import { Ticket } from '../../models/ticket';
 import { queueGroupName } from './queue-group-name';
 
 export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
@@ -8,7 +9,8 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 	queueGroupName = queueGroupName;
 
 	async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
-		const ticket = await Ticket.findById(data.id);
+		const ticket = await Ticket.findByEvent(data);
+
 		if (!ticket) {
 			throw new Error('Ticket not found');
 		}
@@ -18,6 +20,6 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 			price,
 		});
 		await ticket.save();
-    msg.ack()
+		msg.ack();
 	}
 }
