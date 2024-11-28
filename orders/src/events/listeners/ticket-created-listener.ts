@@ -1,7 +1,8 @@
-import {Listener, Subjects, TicketCreatedEvent} from '@mkrzektickets/common';
-import {Message} from 'node-nats-streaming';
-import {Ticket} from '../../models/ticket';
-import {queueGroupName} from './queue-group-name';
+import { Listener, Subjects, TicketCreatedEvent } from '@mkrzektickets/common';
+import { Message } from 'node-nats-streaming';
+
+import { Ticket } from '../../models/ticket';
+import { queueGroupName } from './queue-group-name';
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 	readonly subject = Subjects.TicketCreated;
@@ -16,6 +17,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 			price,
 		});
 		await ticket.save();
+		console.log('CREATED TICKEt IN ORDer', ticket);
 		msg.ack();
 	}
 }

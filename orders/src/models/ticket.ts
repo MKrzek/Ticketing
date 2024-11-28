@@ -1,7 +1,7 @@
-import {OrderStatus} from '@mkrzektickets/common';
+import { OrderStatus } from '@mkrzektickets/common';
 import mongoose from 'mongoose';
-import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
-import {Order} from './order';
+
+import { Order } from './order';
 
 interface TicketAttrs {
 	id?: string;
@@ -42,11 +42,15 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
-
+// ticketSchema.plugin(updateIfCurrentPlugin);
+ticketSchema.pre('save', function () {
+	this.$where = {
+		version: this.get('version') - 1,
+	};
+});
 ticketSchema.statics.findByEvent = (event: {id: string; version: number}) => {
 	return Ticket.findOne({
-		id: event.id,
+		_id: event.id,
 		version: event.version - 1,
 	});
 };
