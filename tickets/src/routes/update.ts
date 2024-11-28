@@ -6,9 +6,10 @@ import {
 } from '@mkrzektickets/common';
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {natsWrapper} from '../nats-wrapper';
 import {TicketUpdatedPublisher} from '../events/publishers/ticket-updated-publisher';
+
 import {Ticket} from '../models/ticket';
+import {natsWrapper} from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ router.put(
 			title: ticket.title,
 			price: ticket.price,
 			userId: ticket.userId,
+			version: ticket.version,
 		});
 
 		res.send(ticket);
