@@ -1,14 +1,14 @@
-import express from 'express';
 import 'express-async-errors';
-import {json} from 'body-parser';
 
-import {errorHandler, NotFoundError, currentUser} from '@mkrzektickets/common';
-import {createTicketRouter} from './routes/new';
-
+import { currentUser, errorHandler, NotFoundError } from '@mkrzektickets/common';
+import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import {showTicketRouter} from './routes/show';
-import {indexTicketRouter} from './routes';
-import {updateTicketRouter} from './routes/update';
+import express from 'express';
+
+import { indexTicketRouter } from './routes';
+import { createTicketRouter } from './routes/new';
+import { showTicketRouter } from './routes/show';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 // traffic is proxied to express through ingress nginx and allows express to trust the connection even when express is behind the proxy
@@ -30,6 +30,6 @@ app.all('*', () => {
 	throw new NotFoundError();
 });
 
-app.use(errorHandler);
+app.use(errorHandler as any);
 
 export {app};
