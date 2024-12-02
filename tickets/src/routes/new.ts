@@ -1,10 +1,10 @@
-import {requireAuth, validateRequest} from '@mkrzektickets/common';
-import express, {Request, Response} from 'express';
-import {body} from 'express-validator';
-import {TicketCreatedPublisher} from '../events/publishers/ticket-created-publisher';
+import { requireAuth, validateRequest } from '@mkrzektickets/common';
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
 
-import {Ticket} from '../models/ticket';
-import {natsWrapper} from '../nats-wrapper';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { Ticket } from '../models/ticket';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -25,7 +25,6 @@ router.post(
 		});
 		await ticket.save();
 
-		console.log('SSSS', ticket);
 
 		await new TicketCreatedPublisher(natsWrapper.client).publish({
 			id: ticket.id,
