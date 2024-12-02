@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import {OrderStatus} from '../../../../common/src/events/types/order-status';
-import {app} from '../../app';
-import {Order} from '../../models/order';
-import {Ticket} from '../../models/ticket';
-import {natsWrapper} from '../../nats-wrapper';
+
+import { OrderStatus } from '../../../../common/src/events/types/order-status';
+import { app } from '../../app';
+import { Order } from '../../models/order';
+import { Ticket } from '../../models/ticket';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('returns an error if the ticket does not exist', async () => {
 	const ticketId = new mongoose.Types.ObjectId();
@@ -17,6 +18,7 @@ it('returns an error if the ticket does not exist', async () => {
 
 it('returns an error if the ticket is reserved', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -38,6 +40,7 @@ it('returns an error if the ticket is reserved', async () => {
 
 it('reserve a ticket', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -51,6 +54,7 @@ it('reserve a ticket', async () => {
 
 it('emit event after order was created', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -63,5 +67,5 @@ it('emit event after order was created', async () => {
 		.send({ticketId: ticket.id})
 		.expect(201);
 
-	expect(natsWrapper.client.publish).toHaveBeenCalled()
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

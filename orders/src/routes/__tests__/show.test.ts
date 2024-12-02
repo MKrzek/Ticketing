@@ -1,9 +1,12 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
-import {app} from '../../app';
-import {Ticket} from '../../models/ticket';
+
+import { app } from '../../app';
+import { Ticket } from '../../models/ticket';
 
 it('fetch the order', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -27,6 +30,7 @@ it('fetch the order', async () => {
 
 it('returns an error if one user tries to fetch another users order', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -39,10 +43,9 @@ it('returns an error if one user tries to fetch another users order', async () =
 		.send({ticketId: ticket.id})
 		.expect(201);
 
-await request(app)
+	await request(app)
 		.get(`/api/orders/${order.id}`)
 		.set('Cookie', global.signin())
 		.send()
 		.expect(401);
-
 });

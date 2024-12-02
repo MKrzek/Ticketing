@@ -1,12 +1,15 @@
+import mongoose from 'mongoose';
 import request from 'supertest';
-import {OrderStatus} from '../../../../common/src/events/types/order-status';
-import {app} from '../../app';
-import {Order} from '../../models/order';
-import {Ticket} from '../../models/ticket';
-import {natsWrapper} from '../../nats-wrapper';
+
+import { OrderStatus } from '../../../../common/src/events/types/order-status';
+import { app } from '../../app';
+import { Order } from '../../models/order';
+import { Ticket } from '../../models/ticket';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('marks an order as cancelled', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
@@ -32,6 +35,7 @@ it('marks an order as cancelled', async () => {
 
 it('emits event after order was cancelled', async () => {
 	const ticket = Ticket.build({
+		id: new mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
 	});
