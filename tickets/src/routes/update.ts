@@ -1,8 +1,7 @@
-import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@mkrzektickets/common';
+import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest, BadRequestError } from '@mkrzektickets/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 
-import { BadRequestError } from '../../../common/src/errors/bad-request-error';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
 import { Ticket } from '../models/ticket';
 import { natsWrapper } from '../nats-wrapper';
@@ -14,7 +13,7 @@ router.put(
 	requireAuth,
 	[
 		body('title').not().isEmpty().withMessage('Title is required'),
-		body('price').isFloat({gt: 0}).withMessage('Price must be greater than 0'),
+		body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0'),
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
@@ -38,7 +37,7 @@ router.put(
 		// 	{new: true}
 		// );
 
-		ticket.set({...req.body});
+		ticket.set({ ...req.body });
 		await ticket.save();
 
 		await new TicketUpdatedPublisher(natsWrapper.client).publish({
@@ -53,4 +52,4 @@ router.put(
 	}
 );
 
-export {router as updateTicketRouter};
+export { router as updateTicketRouter };

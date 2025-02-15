@@ -1,12 +1,12 @@
 import express from 'express';
 import 'express-async-errors';
-import {json} from 'body-parser';
+import { json } from 'body-parser';
 
-import {currentUserRouter} from './routes/current-user';
-import {signinRouter} from './routes/signin';
-import {signoutRouter} from './routes/signout';
-import {signupRouter} from './routes/signup';
-import {errorHandler, NotFoundError} from '@mkrzektickets/common';
+import { currentUserRouter } from './routes/current-user';
+import { signinRouter } from './routes/signin';
+import { signoutRouter } from './routes/signout';
+import { signupRouter } from './routes/signup';
+import { errorHandler, NotFoundError } from '@mkrzektickets/common';
 
 import cookieSession from 'cookie-session';
 
@@ -30,6 +30,6 @@ app.all('*', () => {
 	throw new NotFoundError();
 });
 
-app.use(errorHandler);
+app.use(errorHandler as any);
 
-export {app};
+export { app };
