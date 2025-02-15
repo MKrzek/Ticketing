@@ -5,13 +5,13 @@ import {
 	requireAuth,
 	validateRequest,
 } from '@mkrzektickets/common';
-import express, {Request, Response} from 'express';
-import {body} from 'express-validator';
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
 import mongoose from 'mongoose';
-import {OrderCreatedPublisher} from '../events/publishers/order-created-publisher';
-import {Order} from '../models/order';
-import {Ticket} from '../models/ticket';
-import {natsWrapper} from '../nats-wrapper';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { Order } from '../models/order';
+import { Ticket } from '../models/ticket';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.post(
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const {ticketId} = req.body;
+		const { ticketId } = req.body;
 		// find the ticket the user is trying to order in DB
 		const ticket = await Ticket.findById(ticketId);
 		if (!ticket) {
@@ -67,8 +67,9 @@ router.post(
 				price: ticket.price,
 			},
 		});
+
 		res.status(201).send(order);
 	}
 );
 
-export {router as newOrderRouter};
+export { router as newOrderRouter };
