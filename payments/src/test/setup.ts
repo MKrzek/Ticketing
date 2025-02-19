@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
-import {MongoMemoryServer} from 'mongodb-memory-server';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 let mongo: any;
 
 declare global {
-	var signin: () => string[];
+	var signin: (id?: string) => string[];
 }
 
 jest.mock('../nats-wrapper');
@@ -34,10 +34,10 @@ afterAll(async () => {
 	await mongoose.connection.close();
 });
 
-global.signin = () => {
+global.signin = (id?: string) => {
 	// build a JWT payload to put into a cookie = {"jwt": "jsonwebtokengoeshere"}
 	const payload = {
-		id: new mongoose.Types.ObjectId().toHexString(),
+		id: id || new mongoose.Types.ObjectId().toHexString(),
 		email: 'test@test.com',
 	};
 
@@ -45,7 +45,7 @@ global.signin = () => {
 	const token = jwt.sign(payload, process.env.JWT_KEY!);
 
 	// build session object{jwt: MY_JWT}
-	const session = {jwt: token};
+	const session = { jwt: token };
 	// turn that session into JSON
 
 	const sessionJSON = JSON.stringify(session);

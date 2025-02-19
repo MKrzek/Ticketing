@@ -4,7 +4,7 @@ import { currentUser, errorHandler, NotFoundError } from '@mkrzektickets/common'
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
-
+import { createChargeRrouter } from "./routes/new";
 
 const app = express();
 // traffic is proxied to express through ingress nginx and allows express to trust the connection even when express is behind the proxy
@@ -17,7 +17,7 @@ app.use(
 	})
 );
 app.use(currentUser);
-
+app.use(createChargeRrouter);
 
 app.all('*', () => {
 	throw new NotFoundError();
