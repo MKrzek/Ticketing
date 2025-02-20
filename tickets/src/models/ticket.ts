@@ -23,7 +23,7 @@ const ticketSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			require: true,
+			required: true,
 		},
 		price: {
 			type: Number,
@@ -55,4 +55,4 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
-export {Ticket};
+export { Ticket };
