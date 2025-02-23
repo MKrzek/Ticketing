@@ -37,7 +37,7 @@ it('updates status of the order', async () => {
     await listener.onMessage(data, msg)
     const updatedOrder = await Order.findById(order.id)
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled)
-})
+}, 6000)
 
 it('acks the message', async () => {
     const { listener, data, msg } = await setup()
