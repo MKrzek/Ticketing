@@ -11,11 +11,14 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
 	async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
 		const ticket = await Ticket.findById(data.ticket.id);
 
+		console.log('IDDDDD', data.ticket.id)
+		console.log('SSS-found ticket', ticket)
+
 		if (!ticket) {
 			throw new Error('Ticket not found');
 		}
 
-		ticket.set({orderId: undefined});
+		ticket.set({ orderId: undefined });
 		await ticket.save();
 
 		await new TicketUpdatedPublisher(this.client).publish({
