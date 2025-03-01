@@ -1,9 +1,8 @@
-import mongoose, { StringExpression } from "mongoose";
+import mongoose from "mongoose";
 
 interface PaymentAttrs {
     orderId: string
     stripeId: string
-
 }
 
 interface PaymentDoc extends mongoose.Document {
