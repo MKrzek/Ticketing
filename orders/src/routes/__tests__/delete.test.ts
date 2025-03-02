@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 
-import { OrderStatus } from '../../../../common/src/events/types/order-status';
 import { app } from '../../app';
 import { Order } from '../../models/order';
 import { Ticket } from '../../models/ticket';
 import { natsWrapper } from '../../nats-wrapper';
+import { OrderStatus } from "@mkrzektickets/common";
 
 it('marks an order as cancelled', async () => {
 	const ticket = Ticket.build({
@@ -17,10 +17,10 @@ it('marks an order as cancelled', async () => {
 
 	const user = global.signin();
 
-	const {body: order} = await request(app)
+	const { body: order } = await request(app)
 		.post('/api/orders')
 		.set('Cookie', user)
-		.send({ticketId: ticket.id})
+		.send({ ticketId: ticket.id })
 		.expect(201);
 
 	await request(app)
@@ -43,10 +43,10 @@ it('emits event after order was cancelled', async () => {
 
 	const user = global.signin();
 
-	const {body: order} = await request(app)
+	const { body: order } = await request(app)
 		.post('/api/orders')
 		.set('Cookie', user)
-		.send({ticketId: ticket.id})
+		.send({ ticketId: ticket.id })
 		.expect(201);
 
 	await request(app)

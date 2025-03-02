@@ -13,13 +13,13 @@ it('fetch the order', async () => {
 
 	await ticket.save();
 	const user = global.signin();
-	const {body: order} = await request(app)
+	const { body: order } = await request(app)
 		.post('/api/orders')
 		.set('Cookie', user)
-		.send({ticketId: ticket.id})
+		.send({ ticketId: ticket.id })
 		.expect(201);
 
-	const {body: fetchedOrder} = await request(app)
+	const { body: fetchedOrder } = await request(app)
 		.get(`/api/orders/${order.id}`)
 		.set('Cookie', user)
 		.send()
@@ -37,10 +37,10 @@ it('returns an error if one user tries to fetch another users order', async () =
 
 	await ticket.save();
 	const user = global.signin();
-	const {body: order} = await request(app)
+	const { body: order } = await request(app)
 		.post('/api/orders')
 		.set('Cookie', user)
-		.send({ticketId: ticket.id})
+		.send({ ticketId: ticket.id })
 		.expect(201);
 
 	await request(app)
