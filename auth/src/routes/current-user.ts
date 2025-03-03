@@ -7,8 +7,6 @@ router.get(
 	'/api/users/currentuser',
 	currentUser,
 	(req: Request, res: Response) => {
-
-		console.log('Again testing')
 		res.send({ currentUser: req.currentUser || null });
 	}
 );
