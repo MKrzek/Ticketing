@@ -7,7 +7,8 @@ router.get(
 	'/api/users/currentuser',
 	currentUser,
 	(req: Request, res: Response) => {
-		console.log('Current user', currentUser)
+		console.log('Current user add another', currentUser)
+		console.log('Again testing')
 		res.send({ currentUser: req.currentUser || null });
 	}
 );
