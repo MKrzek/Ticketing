@@ -18,5 +18,5 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
      
-      - run: cd auth && docker build -t mkrzek15/tickets .
+      - run: cd tickets && docker build -t mkrzek15/tickets .
       - run: docker push mkrzek15/tickets
