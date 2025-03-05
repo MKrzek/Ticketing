@@ -20,3 +20,9 @@ jobs:
      
       - run: cd expiration && docker build -t mkrzek15/expiration .
       - run: docker push mkrzek15/expiration
+      
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment expiration-depl
