@@ -21,7 +21,7 @@ jobs:
       - run: cd client && docker build -t mkrzek15/client .
       - run: docker push mkrzek15/client
       
-      - uses: digitalocean/action-doctl@v2
+      - uses: digitalocean/action-doctl@v2     
         with:
           token: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
       - run: doctl kubernetes cluster kubeconfig save ticketing
