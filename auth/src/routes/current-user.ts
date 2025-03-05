@@ -7,7 +7,7 @@ router.get(
 	'/api/users/currentuser',
 	currentUser,
 	(req: Request, res: Response) => {
-		console.log('manual testing -2')
+		console.log('manual testing -3')
 		res.send({ currentUser: req.currentUser || null });
 	}
 );
